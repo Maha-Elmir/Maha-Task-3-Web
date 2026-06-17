@@ -1,6 +1,6 @@
 {
-    "name": "Photo Journal",
-    "short_name": "Journal",
+    "name": "Student Marks",
+    "short_name": "Marks",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

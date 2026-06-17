@@ -1,5 +1,5 @@
 // service-worker.js
-const CACHE_NAME = 'photo-journal-cache-v1';
+const CACHE_NAME = 'student-marks-cache-v1';
 const urlsToCache = [
     '/',
     '/static/style.css',
