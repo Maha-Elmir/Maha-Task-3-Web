@@ -15,3 +15,9 @@ INSERT INTO Students(firstname, lastname) VALUES
 ('Jacob','Brooks'),
 ('Hannah','Lee'),
 ('Sue','Smith');
+
+CREATE TABLE IF NOT EXISTS users (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+firstname TEXT UNIQUE NOT NULL,
+password TEXT NOT NULL
+);

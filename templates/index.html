@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %} {% if session.firstname %}
+<h2><a href="{{ url_for('students') }}" class="auth-link">
+Students</a></h2>
+{% for id in students %}
+<p>{{students.firstname}}</p>
+<div id="display-{{ students.id }}">
+    <h3>{{ students.firstname }}</h3>
+    <p>{{ students.lastname }}</p>
+</div>
+{% endfor %}
+<br>
+<h2>Subjects</h2>
+{% endif %} {% endblock %}
