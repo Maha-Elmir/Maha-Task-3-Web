@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block text %}
+{{ student['firstname'] }} {{ student['lastname'] }}'s Marks
+{% endblock text %}
+{% block content %}
+<h2 class="heading2">{{student['firstname']}}'s Subjects</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Mark</th>
+            <th>Last Updated</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mark in marks %}
+        <tr>
+            <td>{{ mark['subject'] }}</td>
+            <td>{{ mark['mark'] }}</td>
+            <td>{{ mark['last_updated'] }}</td>
+            <td>
+                <!--Copilot's Code-->
+                {% if edit_mark_id and edit_mark_id|int == mark['id'] %}
+                <form action="{{ url_for('edit_mark', mark_id=mark['id']) }}" method="post"
+                    style="display:flex; gap:6px; align-items:center;">
+                    <span s>{{ mark['subject'] }}</span>
+                    <input name="mark" type="number" min="0" max="100" value="{{ mark['mark'] }}" required>
+                    <button type="submit">Save</button>
+                    <a href="{{ url_for('student', student_id=student['id']) }}" style="margin-left:6px;">Cancel</a>
+                </form>
+                {% else %}
+                <a href="{{ url_for('student', student_id=student['id'], edit=mark['id']) }}">Edit</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

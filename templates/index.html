@@ -1,13 +1,23 @@
-{% extends "base.html" %} {% block content %} {% if session.firstname %}
-<h2><a href="{{ url_for('students') }}" class="auth-link">
-Students</a></h2>
-{% for id in students %}
-<p>{{students.firstname}}</p>
-<div id="display-{{ students.id }}">
-    <h3>{{ students.firstname }}</h3>
-    <p>{{ students.lastname }}</p>
+{% extends "base.html" %}
+{% block content %}
+<div class="connect">
+    <h2 class="connect">Students</h2>
+    {% for student in students %}
+    <div class="student-list">
+        <!-- Copilot Code -->
+        <ul>
+            <p>- <a href="{{url_for('student', student_id=student['id'])}}">{{student['firstname']}} {{student['lastname']}}</p></a>
+        </ul>
+        <!-- Maha's Code -->
+    </div>
+    {% endfor %}
+    <h2 class="connect">Subjects</h2>
+    {% for subject in subject %}
+    <div class="subject-list">
+        <ul>
+            <p>- <a href="{{url_for('subject', subject_id=subject['id'])}}">{{subject['subject']}}</p></a>
+        </ul>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
-<br>
-<h2>Subjects</h2>
-{% endif %} {% endblock %}
+{% endblock %}

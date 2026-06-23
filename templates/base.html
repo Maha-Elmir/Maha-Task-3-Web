@@ -31,13 +31,10 @@
 
 <body>
     <div class="header">
-        <h1>Student Marks</h1>
         <!-- START NEW CODE HERE -->
         {% if session.user_id %}
-        <div>
-            Hello, {{ session.firstname }}
+        <a href="/" style="color:white;text-decoration: none;">{% block text %}Hello, {{ session.firstname }}{% endblock %}</a>
             <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
-        </div>
         {% endif %}
         <!-- END NEW CODE HERE -->
     </div>

@@ -1,28 +1,74 @@
 /* Basic page setup */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&display=swap');
+
 body {
     margin: 0; /* Remove default margin from the body */
     padding: 0; /* Remove default padding from the body */
-    font-family: Arial; /* Set Arial as the default font */
-    background-color: #f0f0f0; /* Set a light grey background colour */
+    font-family: "Nunito"; 
+    background-image:url('https://imgh.in/host/sce4o3');
+    background-repeat:repeat;
+    background-size:40%;
+    background-color: #f0f0f0ec; /* Set a light grey background colour */
+    background-blend-mode: lighten;
+}
+.connect {
+    padding:0;
+    color:#3d4c5e;
+    text-align:center;
+    align-items: center;
+}
+h2.connect{
+    font-size:35px;
+    margin-bottom:0px;
+}
+.subject-list, .student-list{
+    font-size:20px;
+    padding-right:20px;
+    margin-bottom:-18px;
+    display:inline-block;
+    vertical-align:middle;
+    text-align:center;
+}
+
+.heading2{
+    margin-top:-10px;
+    padding:0;
+    color:#3d4c5e;
+    text-align:center;
+    align-items: center;
+    font-size:35px;
+    margin-bottom:0px;
 }
 
 /* Header styling */
 .header {
-    background-color: #333; /* Dark background for the header */
+    background-color: #aea8a3ed; /* Dark background for the header */
     color: white; /* White text for contrast */
     padding: 20px; /* Add padding inside the header */
     margin-bottom: 20px; /* Add space below the header */
+    vertical-align: middle;
+    font-size:25px;
+    display: flex;
+    border-bottom: 2px solid rgba(80, 74, 74, 0.71);
 }
+
 
 /* Logout button style */
 .logout-button {
     background-color: #ff4444; /* Red background for the button */
     color: white; /* White text for contrast */
     text-decoration: none; /* Remove the underline from the link */
-    padding: 8px 15px; /* Add padding inside the button */
+    padding: 0.5px 3.75px; /* Add padding inside the button */
     border-radius: 3px; /* Slightly round the corners of the button */
+    position:relative;
+    margin-left:auto;
+    font-size:20px;
+    box-shadow: 2px 1px 3px #86827f8c;
 }
-
+.logout-button:hover {
+    background-color: #bc3636;
+    color:#f8e9d7
+}
 /* Main content area */
 .main {
     width: 800px; /* Set a fixed width for the main content area */
@@ -35,6 +81,10 @@ body {
     box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
+.list {
+    margin-left:-25px;
+    font-weight:600;
+}
 .form-box { 
     background-color: white; /* White background for the form box */
     padding: 20px; /* Add padding inside the form box */
@@ -56,13 +106,33 @@ input, textarea, button {
 } 
 
 button { 
-    background-color: #4287f5; /* Blue background for the button */
+    background-color: #c3afa3; /* Blue background for the button */
     color: white; /* White text for contrast */
     padding: 10px; /* Add padding inside the button */
     border: none; /* Remove the default border */
     margin-top: 10px; /* Add space above the button */
 }
 
+table {
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:10px;
+    width:400px;
+}
+th{
+    background-color: #756b6164;
+    color:rgb(14, 12, 10);
+}
+tr{
+    text-align:center;
+}
+table td:nth-child(2){
+    width:25%;
+}
+
+input{
+    width:50px;
+}
 /* Auth section (e.g., login/signup form) */
 .auth { 
     text-align: center; /* Centre the text */
@@ -155,4 +225,13 @@ button {
 
 .inline-form {
     display: inline
+}
+
+a {
+    text-decoration: underline wavy 0.5px;
+    color: #62a7d4;
+    text-shadow: 1px 1px #658ca734;
+}
+a:hover{
+    color: #417fa8;
 }

@@ -13,18 +13,122 @@ def get_db():
     db.row_factory = sqlite3.Row
     return db
 
+def column_exists(db, table, column):
+    cur = db.execute(f"PRAGMA table_info({table})")
+    cols = [r[1] for r in cur.fetchall()]
+    return column in cols
+
 @app.route('/')
 def index():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    return render_template('index.html')
+    db = get_db()
+    students = db. execute('''
+                          SELECT * FROM students
+                          ORDER BY 'firstname' ASC;
+                          ''').fetchall()
+    subject = db.execute('''
+                          SELECT * FROM subject
+                          ORDER BY `id` ASC;
+                         ''').fetchall()
+    return render_template('index.html', students=students, subject=subject)
 
-@app.route('/students')
-def students():
+@app.route('/student/<int:student_id>')
+def student(student_id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    return render_template('students.html')
-    
+    db = get_db()
+    student = db.execute(
+        'SELECT * FROM students WHERE id = ?',
+        (student_id,)).fetchone()
+    marks = db.execute(
+        'SELECT id, subject, marks as mark, last_updated FROM Marks WHERE student_id = ? ORDER BY marks DESC',
+        (student_id,)).fetchall()
+    edit_mark_id = request.args.get('edit')
+    return render_template('student.html', student=student, marks=marks, edit_mark_id=edit_mark_id)
+
+@app.route('/subject/<int:subject_id>')
+def subject(subject_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    db = get_db()
+    #Copilot's Code
+    # Detect whether the subject table uses `name` or `subject` column
+    try:
+        subj_cols = [r[1] for r in db.execute("PRAGMA table_info(subject)").fetchall()]
+    except sqlite3.OperationalError:
+        subj_cols = []
+    if 'name' in subj_cols:
+        subject = db.execute('SELECT id, name as subject FROM subject WHERE id = ?', (subject_id,)).fetchone()
+    elif 'subject' in subj_cols:
+        subject = db.execute('SELECT id, subject as subject FROM subject WHERE id = ?', (subject_id,)).fetchone()
+    else:
+        subject = {'id': subject_id, 'subject': 'Unknown'}
+    marks = db.execute('''
+        SELECT m.id as id, m.marks as marks, m.last_updated as last_updated,
+               s.id as student_id, s.firstname as firstname, s.lastname as lastname
+        FROM Marks m
+        JOIN students s ON m.student_id = s.id
+        WHERE m.subject_id = ?
+        ORDER BY s.firstname ASC
+    ''', (subject_id,)).fetchall()
+    edit_mark_id = request.args.get('edit')
+    return render_template('subject.html', subject=subject, marks=marks, edit_mark_id=edit_mark_id)
+
+#Copilot's Code
+@app.route('/edit_mark/<int:mark_id>', methods=['POST'])
+def edit_mark(mark_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    db = get_db()
+    mark_row = db.execute('SELECT * FROM Marks WHERE id = ?', (mark_id,)).fetchone()
+    if not mark_row:
+        flash('Mark not found', 'error')
+        return redirect(url_for('index'))
+
+    try:
+        new_mark = int(request.form.get('mark'))
+    except (TypeError, ValueError):
+        flash('Invalid mark value', 'error')
+        return redirect(url_for('student', student_id=mark_row['student_id']))
+
+    db.execute('''
+        UPDATE Marks
+        SET marks = ?, last_updated = ?
+        WHERE id = ?
+    ''', (new_mark, datetime.now().strftime('%d/%m/%Y'), mark_id))
+    db.commit()
+    flash('Mark updated', 'success')
+    return redirect(url_for('student', student_id=mark_row['student_id']))
+
+@app.route('/edit_subject/<int:mark_id>', methods=['POST'])
+def edit_subject(mark_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    db = get_db()
+    mark_row = db.execute('SELECT * FROM Marks WHERE id = ?', (mark_id,)).fetchone()
+    if not mark_row:
+        flash('Mark not found', 'error')
+        return redirect(url_for('index'))
+
+    try:
+        new_mark = int(request.form.get('mark'))
+    except (TypeError, ValueError):
+        flash('Invalid mark value', 'error')
+        sid = mark_row['subject_id'] if 'subject_id' in mark_row.keys() else 0
+        return redirect(url_for('subject', subject_id=sid))
+
+    db.execute('''
+        UPDATE Marks
+        SET marks = ?, last_updated = ?
+        WHERE id = ?
+    ''', (new_mark, datetime.now().strftime('%d/%m/%Y'), mark_id))
+    db.commit()
+    flash('Mark updated', 'success')
+    sid = mark_row['subject_id'] if 'subject_id' in mark_row.keys() else 0
+    return redirect(url_for('subject', subject_id=sid))
+
+#Maha's Code    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -68,8 +172,6 @@ def logout():
     session. clear()
     return redirect(url_for('login'))
 
-#EDIT STUFF
-
 @app.route('/offline') 
 def offline():
     response = make_response(render_template('offline.html'))
@@ -90,10 +192,6 @@ def manifest():
                             'manifest.json') 
                             ) 
     return response
-
-#MORE STUFF
-
-
 
 if __name__ == '__main__': 
     app.run(debug=True)
