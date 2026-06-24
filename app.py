@@ -23,21 +23,29 @@ def index():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     db = get_db()
-    students = db. execute('''
+    students = db.execute('''
                           SELECT * FROM students
-                          ORDER BY 'firstname' ASC;
+                          ORDER BY firstname ASC;
                           ''').fetchall()
-    subject = db.execute('''
+    subjects = db.execute('''
                           SELECT * FROM subject
-                          ORDER BY `id` ASC;
+                          ORDER BY subject ASC;
                          ''').fetchall()
-    return render_template('index.html', students=students, subject=subject)
+    return render_template('index.html', students=students, subjects=subjects)
 
 @app.route('/student/<int:student_id>')
 def student(student_id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     db = get_db()
+    students = db.execute('''
+                          SELECT * FROM students
+                          ORDER BY firstname ASC;
+                          ''').fetchall()
+    subjects = db.execute('''
+                          SELECT * FROM subject
+                          ORDER BY subject ASC;
+                         ''').fetchall()
     student = db.execute(
         'SELECT * FROM students WHERE id = ?',
         (student_id,)).fetchone()
@@ -45,13 +53,21 @@ def student(student_id):
         'SELECT id, subject, marks as mark, last_updated FROM Marks WHERE student_id = ? ORDER BY marks DESC',
         (student_id,)).fetchall()
     edit_mark_id = request.args.get('edit')
-    return render_template('student.html', student=student, marks=marks, edit_mark_id=edit_mark_id)
+    return render_template('student.html', students=students, subjects=subjects, student=student, marks=marks, edit_mark_id=edit_mark_id)
 
 @app.route('/subject/<int:subject_id>')
 def subject(subject_id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     db = get_db()
+    students = db.execute('''
+                          SELECT * FROM students
+                          ORDER BY firstname ASC;
+                          ''').fetchall()
+    subjects = db.execute('''
+                          SELECT * FROM subject
+                          ORDER BY subject ASC;
+                         ''').fetchall()
     #Copilot's Code
     # Detect whether the subject table uses `name` or `subject` column
     try:
@@ -73,7 +89,7 @@ def subject(subject_id):
         ORDER BY s.firstname ASC
     ''', (subject_id,)).fetchall()
     edit_mark_id = request.args.get('edit')
-    return render_template('subject.html', subject=subject, marks=marks, edit_mark_id=edit_mark_id)
+    return render_template('subject.html', students=students, subject=subject, subjects=subjects, marks=marks, edit_mark_id=edit_mark_id)
 
 #Copilot's Code
 @app.route('/edit_mark/<int:mark_id>', methods=['POST'])
@@ -132,39 +148,39 @@ def edit_subject(mark_id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        firstname = request. form['firstname' ]
+        fullname = request. form['fullname' ]
         password = request. form['password' ]
         
         db = get_db()
         user = db.execute(
-            'SELECT * FROM users WHERE firstname = ?', (firstname, )
+            'SELECT * FROM users WHERE fullname = ?', (fullname, )
             ).fetchone()
         
         if user and check_password_hash(user['password'], password):
             session.clear()
             session['user_id' ] = user['id'] 
-            session['firstname'] = user['firstname']
+            session['fullname'] = user['fullname']
             return redirect(url_for('index'))
-        flash('Invalid firstname or password', 'error')
+        flash('Invalid full name or password', 'error')
     return render_template('login.html')
 
 @app.route('/register', methods=['GET' , 'POST'])
 def register():
     if request.method == 'POST':
-        firstname = request. form['firstname' ]
+        fullname = request. form['fullname' ]
         password = request. form['password' ]
         
         db = get_db()
         try: 
             db.execute(
-                'INSERT INTO users (firstname, password) VALUES (?, ?) ' ,
-                (firstname, generate_password_hash(password))
+                'INSERT INTO users (fullname, password) VALUES (?, ?) ' ,
+                (fullname, generate_password_hash(password))
             )
             db.commit()
             flash('Registration successful! Please log in. ', 'success') 
             return redirect(url_for('login'))
         except sqlite3. IntegrityError: 
-            flash('Firstname already entered!', 'error') 
+            flash('Full name already entered!', 'error') 
     return render_template('register.html')
 
 @app.route('/logout')

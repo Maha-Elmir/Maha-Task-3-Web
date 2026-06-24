@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block text %}
-{{ student['firstname'] }} {{ student['lastname'] }}'s Marks
-{% endblock text %}
+{% block title %}{{ student['firstname'] }} {{ student['lastname'] }}{% endblock title %}
+{% block text %}{{ student['firstname'] }} {{ student['lastname'] }}'s Marks{% endblock text %}
 {% block content %}
+<title>Student</title>
 <h2 class="heading2">{{student['firstname']}}'s Subjects</h2>
 <table border="1">
     <thead>

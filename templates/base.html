@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Marks</title>
+    <title>{% block title %}Student Marks{% endblock title%}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='icons/favicon.png') }}">
     <meta name="theme-color" content="#000000">
@@ -27,14 +27,28 @@
     <!-- END NEW CODE HERE-->
 </head>
 
-</head>
-
 <body>
     <div class="header">
         <!-- START NEW CODE HERE -->
         {% if session.user_id %}
-        <a href="/" style="color:white;text-decoration: none;">{% block text %}Hello, {{ session.firstname }}{% endblock %}</a>
-            <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+        <a href="/" style="color:white;text-decoration: none;">{% block text %}Hello, {{ session.fullname }}{% endblock%}</a>
+        <div class="menu-button">
+            <button class="button">subject</button>
+            <div class="menu">
+                   {% for student in students%}
+                <a href="{{url_for('student', student_id=student['id'])}}">{{student['firstname']}} {{student['lastname']}}</a>
+                {% endfor %}
+            </div>
+            <button class="button">button</button>
+            <div class="menu">
+                {% if subjects %}
+                {% for subject in subjects%}
+                <a href="{{ url_for('subject', subject_id=subject['id']) }}">{{ subject['subject'] }}</a>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
         {% endif %}
         <!-- END NEW CODE HERE -->
     </div>
@@ -43,10 +57,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
-        <div class="message {% if category == 'error' %}error{% else
-                %}success {% endif %}">
-            {{ message }}
-        </div>
+        <div class="message {% if category == 'error' %}error{% else %}success {% endif %}">{{ message }}</div>
         {% endfor %}
         {% endif %}
         {% endwith %}

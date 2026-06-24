@@ -12,7 +12,7 @@
     </div>
     {% endfor %}
     <h2 class="connect">Subjects</h2>
-    {% for subject in subject %}
+    {% for subject in subjects %}
     <div class="subject-list">
         <ul>
             <p>- <a href="{{url_for('subject', subject_id=subject['id'])}}">{{subject['subject']}}</p></a>

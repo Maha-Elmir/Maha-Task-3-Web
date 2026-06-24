@@ -52,7 +52,46 @@ h2.connect{
     border-bottom: 2px solid rgba(80, 74, 74, 0.71);
 }
 
+.menu-button {
+  position: relative;
+  display: inline-block;
+}
 
+.menu {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.menu a:hover {background-color: #ddd;}
+
+.menu-button:hover .menu {display: block;}
+
+
+.menu-button{
+    display:inline;
+    position:relative;
+}
+.menu {
+    display:none;
+    position:absolute;
+}
+.menu a {
+    display:block;
+}
+.menu-button:hover .menu {
+    display:block;
+}
 /* Logout button style */
 .logout-button {
     background-color: #ff4444; /* Red background for the button */
@@ -139,7 +178,7 @@ input{
 } 
 
 .auth-link { 
-    color: #007bff; /* Blue colour for the authentication links */
+    color: #82766c; /* Blue colour for the authentication links */
     text-decoration: none; /* Remove underline from the link */
     text-align: center; /* Centre the text */
     margin-top: 1rem; /* Add space above the link */
