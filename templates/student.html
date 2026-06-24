@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ student['firstname'] }} {{ student['lastname'] }}{% endblock title %}
 {% block text %}{{ student['firstname'] }} {{ student['lastname'] }}'s Marks{% endblock text %}
+{% block icon %}{%endblock%}
 {% block content %}
 <title>Student</title>
 <h2 class="heading2">{{student['firstname']}}'s Subjects</h2>
@@ -19,15 +20,14 @@
             <td>{{ mark['subject'] }}</td>
             <td>{{ mark['mark'] }}</td>
             <td>{{ mark['last_updated'] }}</td>
-            <td>
+            <td class="edit">
                 <!--Copilot's Code-->
                 {% if edit_mark_id and edit_mark_id|int == mark['id'] %}
                 <form action="{{ url_for('edit_mark', mark_id=mark['id']) }}" method="post"
                     style="display:flex; gap:6px; align-items:center;">
-                    <span s>{{ mark['subject'] }}</span>
-                    <input name="mark" type="number" min="0" max="100" value="{{ mark['mark'] }}" required>
+                    <input class="mark" name="mark" type="number" min="0" max="100" value="{{ mark['mark'] }}" required>
                     <button type="submit">Save</button>
-                    <a href="{{ url_for('student', student_id=student['id']) }}" style="margin-left:6px;">Cancel</a>
+                    <button class="cancel"><a href="{{ url_for('student', student_id=student['id']) }}" style="margin-left:6px;">Cancel</a></button>
                 </form>
                 {% else %}
                 <a href="{{ url_for('student', student_id=student['id'], edit=mark['id']) }}">Edit</a>

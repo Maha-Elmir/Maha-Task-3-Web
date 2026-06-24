@@ -4,14 +4,17 @@ const urlsToCache = [
     '/',
     '/static/style.css',
     '/static/uploads/',
+    '/student/<int:student_id>',
+    '/subject/<int:subject_id>',
+    '/edit_subject/<int:mark_id>',
+    '/edit_mark/<int:mark_id>',
     '/register',
     '/login',
     '/offline',
+    '/static/icons/favicon.png',
     '/static/icons/icon-192x192.png',
     '/static/icons/icon-512x512.png',
-    '/static/icons/icon-delete-64x64.png',
-    '/static/icons/icon-edit-64x64.png',
-    '/static/icons/favicon.png',
+    '/static/icons/icon-home-64x64.png',
     '/manifest.json'
 ];
 
