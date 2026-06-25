@@ -31,7 +31,7 @@
     <div class="header">
         <!-- START NEW CODE HERE -->
         {% if session.user_id %}
-        <a href="/" style="color:white;text-decoration: none;">{% block text %}Hello, {{ session.fullname }}{%endblock%}</a>
+        <a style="color:white;text-decoration: none;">{% block text %}Hello, {{ session.fullname }}{%endblock%}</a>
         {%if request.path != '/'%}
         <button class="icon-button" title="Return Home"><a href="/">
     <img src="{{ url_for('static', filename='icons/icon-home-64x64.png') }}" alt="Home" class="icon"></a>

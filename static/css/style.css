@@ -88,7 +88,7 @@ h2.connect{
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1000;
     pointer-events: auto;
-     min-width: 120px; max-width: 200px;
+    min-width: 120px; max-width: 200px;
     font-size:60%;
 }
 
@@ -113,8 +113,8 @@ h2.connect{
     background-color: #ff4444; /* Red background for the button */
     color: white; /* White text for contrast */
     text-decoration: none; /* Remove the underline from the link */
-    padding: 0.5px 3.75px; /* Add padding inside the button */
-    border-radius: 3px; /* Slightly round the corners of the button */
+    padding: 4px 8px; /* Add padding inside the button */
+    border-radius: 4px; /* Slightly round the corners of the button */
     position: relative;
     margin-left: auto;
     font-size: 20px;
@@ -196,9 +196,7 @@ th{
 tr{
     text-align:center;
 }
-table td:nth-child(2){
-    width:25%;
-}
+
 .mark{
     width:50px;
 }
