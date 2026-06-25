@@ -5,7 +5,7 @@ body {
     margin: 0; /* Remove default margin from the body */
     padding: 0; /* Remove default padding from the body */
     font-family: "Nunito"; 
-    background-image:url('https://imgh.in/host/sce4o3');
+    background-image:url('../icons/background.jpg');
     background-repeat:repeat;
     background-size:40%;
     background-color: #f0f0f0ec; /* Set a light grey background colour */
