@@ -20,17 +20,17 @@
             <td>{{ mark['subject'] }}</td>
             <td>{{ mark['mark'] }}</td>
             <td>{{ mark['last_updated'] }}</td>
-            <td class="edit">
+          <td>
                 <!--Copilot's Code-->
                 {% if edit_mark_id and edit_mark_id|int == mark['id'] %}
                 <form action="{{ url_for('edit_mark', mark_id=mark['id']) }}" method="post"
-                    style="display:flex; gap:6px; align-items:center;">
-                    <input class="mark" name="mark" type="number" min="0" max="100" value="{{ mark['mark'] }}" required>
-                    <button type="submit">Save</button>
-                    <button class="cancel"><a href="{{ url_for('student', student_id=student['id']) }}" style="margin-left:6px;">Cancel</a></button>
+                    style="display:flex; gap:6px; margin-left:4px; align-items:baseline;">
+                    <input name="mark" type="number" min="0" max="100" value="{{ mark['mark'] }}" required>
+                    <button class="save" type="submit">Save</button>
+                    <button type="button" class="cancel" data-href="{{ url_for('student', student_id=student['id']) }}" onclick="window.location=this.dataset.href">Cancel</button>
                 </form>
                 {% else %}
-                <a href="{{ url_for('student', student_id=student['id'], edit=mark['id']) }}">Edit</a>
+                <button class="edit" type="button" data-href="{{ url_for('student', student_id=student['id'], edit=mark['id']) }}" onclick="window.location=this.dataset.href">Edit</button>
                 {% endif %}
             </td>
         </tr>

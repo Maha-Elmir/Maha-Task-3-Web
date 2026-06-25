@@ -206,6 +206,9 @@ table td:nth-child(2){
     width:fit-content;
     background: #a87961;
 }
+.edit:hover{
+    background: #775443;
+}
 .cancel,.save,.edit{
     border-radius:4px;
     text-shadow: 2px 1px 3px #86827f8c;
@@ -213,8 +216,12 @@ table td:nth-child(2){
     text-decoration:none;
     font-family: Arial;
 }
-.cancel:hover, .save:hover,.edit:hover{
-    background:#a99386;
+.cancel, .save{
+    background: #c8a490;
+}
+
+.cancel:hover, .save:hover{
+    background:#b5927f;;
 }
 .input-login{
     width:100%;
